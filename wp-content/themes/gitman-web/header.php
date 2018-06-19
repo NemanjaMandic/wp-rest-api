@@ -1,3 +1,4 @@
+<html>
 <head>
 	<style type="text/css">
 		ul{
@@ -11,6 +12,7 @@
 	<?php wp_head(); ?>
 </head>
 
+<body>
 <h2>This is Header</h2>
 
 <nav>

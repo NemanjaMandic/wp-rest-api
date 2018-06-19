@@ -1,9 +1,17 @@
 <?php get_header(); ?>
 
-	<h1>Welcome to Olympos theme.</h1>
-    <p>
-        You can delete this text in index.php
-    </p>
+	<div class="white-wrap">
+		<div id="app">
+			
+			<router-view></router-view>
 
+		</div>
+	</div>
+
+<template id="post-list-template">
+	
+	
+
+</template>
     
 <?php get_footer(); ?>

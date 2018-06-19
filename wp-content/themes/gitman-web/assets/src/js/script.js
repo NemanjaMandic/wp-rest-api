@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
  portfolioPostsBtn.click(function(e){
  	e.preventDefault();
  	$.ajax({
- 		url: magicData.root + "wp/v2/posts",
+ 		url: magicData.root + "wp/v2/posts?page=5&per_page=1",
  		
  	}).done(function(data){
 
