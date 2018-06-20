@@ -115,15 +115,32 @@ AJAX script to load previous post
   previousBtn.attr('href', 'javascript:void(0)');
 
   function previousPostTrigger(){
-    previousBtn.on('click', getPreviousPost);
+   
+   var trigger = $('.load-previous a');
+
+   var triggerPosition = trigger.offset().top + 2200 - $(window).outerHeight();
+ 
+   $(window).scroll(function(event){
+    if(triggerPosition > $(window).scrollTop()){
+      return;
+    }
+
+    print("uso");
+    print(triggerPosition);
+    getPreviousPost(trigger);
+
+    $(this).off(event);
+
+   });
+
   }
 
   //function call
    previousPostTrigger();
   
-  function getPreviousPost(){
+  function getPreviousPost(trigger){
 
-    var previousPostId = $(this).attr('data-id');
+    var previousPostId = trigger.attr('data-id');
 
     var jsonUrl = restRootUrl + 'wp/v2/posts/' + previousPostId + '?_embed=true';
 
@@ -135,7 +152,7 @@ AJAX script to load previous post
     }).done(function(data){
 
       //console.log(data);
-      buildPost(data);
+      thePreviousPost(data);
 
     }).fail(function(){
 
@@ -148,49 +165,94 @@ AJAX script to load previous post
     });
   }
 
-  function buildPost(data){
+  function thePreviousPost(data){
 
     // get the featured image ID ( 0 if no featured image)
     var featuredImgID = data.featured_media;
-    print(featuredImgID);
-     var date = new Date(data.date);
-     
+   // print(featuredImgID);
+
+    //Create an empty container for theoretical featured image
+    var featImage; 
+
+    function getFeaturedImage(){
+      if(featuredImgID === 0){
+
+        featImage = '';
+
+      }else{
+
+        var featuredObject = data._embedded['wp:featuredmedia'][0];
+        var imgLarge = '';
+        var imgWidth = featuredObject.media_details.sizes.full.width;
+        var imgHeight = featuredObject.media_details.sizes.full.height;
+
+        if(featuredObject.media_details.sizes.hasOwnProperty("large")){
+
+          imgLarge = featuredObject.media_details.sizes.large.source_url + '1024w, ';
+
+        }
+
+        featImage = 
+        '<div class="single-featured-image-header">' + 
+            '<img src="' + featuredObject.media_details.sizes.full.source_url + '" ' +
+            'width="' + imgWidth + '" ' +
+            'height="' + imgHeight + '" ' +
+            'class="featured-image"' +
+            'alt=""' +
+            'srcset="' + featuredObject.media_details.sizes.full.source_url + ' ' + imgWidth + 'w, ' + imgLarge + featuredObject.media_details.sizes.medium.source_url + ' 300w" ' +
+            'sizes="100vw">' +
+
+        '</div>';
+      }
+
+      return featImage;
+    }
+
+    //build the post with or without the featured image
+   function buildPost(){
+
+   var date = new Date(data.date);
+
      var content = 
-      '<div class="generated">' +
-        '<div class="wrap">' +
-          '<article class="post hentry" data-id="' + data.id + '">' +
-            '<span class="screen-reader-text">Posted on</span>' +
-              '<a href="' + data.link + '" rel="bookmark">' +
-                 '<time class="entry-date published" datetime="' + date + '">' + date.toDateString() +
+        '<div class="generated">' +
+          '<div class="wrap">' +
+            '<article class="post hentry" data-id="' + data.id + '">' +
+              '<span class="screen-reader-text">Posted on</span>' +
+                '<a href="' + data.link + '" rel="bookmark">' +
+                   '<time class="entry-date published" datetime="' + date + '">' + date.toDateString() +
+                '</a>' +
+              '</span>' +
+              '<span class="byline"> Author Name: ' + data._embedded.author[0].name + '</span>' +
+              '<h1 class="entry-title">' + data.title.rendered + '</h1>' +
+              '<div class="entry-content">' +
+                 data.content.rendered +
+              '</div>' +
+            '</article>' +
+          '</div>' +
+        '</div><!-- .generated -->' +
+        '<!-- Navigation with button here -->' +
+        '<nav class="navigation post-navigation load-previous" role="navigation">' +
+            '<span class="nav-subtitle">Previous Post</span>' +
+            '<div class="nav-links">' +
+            '<div class="nav-previous">' +
+              '<a href="javascript:void(0)" data-id="' + data.previous_post_ID + '">' +
+                 data.previous_post_title +
               '</a>' +
-            '</span>' +
-            '<span class="byline"> Author Name: ' + data._embedded.author[0].name + '</span>' +
-            '<h1 class="entry-title">' + data.title.rendered + '</h1>' +
-            '<div class="entry-content">' +
-               data.content.rendered +
-            '</div>' +
-          '</article>' +
-        '</div>' +
-      '</div><!-- .generated -->' +
-      '<!-- Navigation with button here -->' +
-      '<nav class="navigation post-navigation load-previous" role="navigation">' +
-          '<span class="nav-subtitle">Previous Post</span>' +
-          '<div class="nav-links">' +
-          '<div class="nav-previous">' +
-            '<a href="javascript:void(0)" data-id="' + data.previous_post_ID + '">' +
-               data.previous_post_title +
-            '</a>' +
-          '</div><!-- nav-previous -->' +
-          '</div><!-- .nav-links -->' +
-      '</nav>';
+            '</div><!-- nav-previous -->' +
+            '</div><!-- .nav-links -->' +
+        '</nav>';
 
-      //Append related posts to the posts-navigation container
-      $('.post-navigation').replaceWith(content);
+        //Append related posts to the posts-navigation container
+        $('.post-navigation').replaceWith(content);
 
-       //Reinitialize the previous post trigger on new content
-      previousPostTrigger();
+         //Reinitialize the previous post trigger on new content
+        previousPostTrigger();
+   }
+     
+     buildPost();
   }
  
+
 
  function print(content){
   console.log(content);
