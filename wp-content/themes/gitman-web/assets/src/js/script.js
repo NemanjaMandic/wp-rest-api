@@ -118,11 +118,14 @@ AJAX script to load previous post
     previousBtn.on('click', getPreviousPost);
   }
 
+  //function call
+   previousPostTrigger();
   
   function getPreviousPost(){
 
     var previousPostId = $(this).attr('data-id');
-    var jsonUrl = restRootUrl + 'wp/v2/posts/' + previousPostId;
+
+    var jsonUrl = restRootUrl + 'wp/v2/posts/' + previousPostId + '?_embed=true';
 
     $.ajax({
 
@@ -146,20 +149,52 @@ AJAX script to load previous post
   }
 
   function buildPost(data){
+
+    // get the featured image ID ( 0 if no featured image)
+    var featuredImgID = data.featured_media;
+    print(featuredImgID);
+     var date = new Date(data.date);
+     
      var content = 
       '<div class="generated">' +
-        '<h1>' + data.title.rendered + '</h1>' +
-        '<div class="post-content">' +
-        '<p>' + data.content.rendered + '</p>' +
+        '<div class="wrap">' +
+          '<article class="post hentry" data-id="' + data.id + '">' +
+            '<span class="screen-reader-text">Posted on</span>' +
+              '<a href="' + data.link + '" rel="bookmark">' +
+                 '<time class="entry-date published" datetime="' + date + '">' + date.toDateString() +
+              '</a>' +
+            '</span>' +
+            '<span class="byline"> Author Name: ' + data._embedded.author[0].name + '</span>' +
+            '<h1 class="entry-title">' + data.title.rendered + '</h1>' +
+            '<div class="entry-content">' +
+               data.content.rendered +
+            '</div>' +
+          '</article>' +
         '</div>' +
-      '</div>';
+      '</div><!-- .generated -->' +
+      '<!-- Navigation with button here -->' +
+      '<nav class="navigation post-navigation load-previous" role="navigation">' +
+          '<span class="nav-subtitle">Previous Post</span>' +
+          '<div class="nav-links">' +
+          '<div class="nav-previous">' +
+            '<a href="javascript:void(0)" data-id="' + data.previous_post_ID + '">' +
+               data.previous_post_title +
+            '</a>' +
+          '</div><!-- nav-previous -->' +
+          '</div><!-- .nav-links -->' +
+      '</nav>';
 
+      //Append related posts to the posts-navigation container
       $('.post-navigation').replaceWith(content);
+
+       //Reinitialize the previous post trigger on new content
+      previousPostTrigger();
   }
-  //functions calls
+ 
 
-  previousPostTrigger();
-
+ function print(content){
+  console.log(content);
+ }
 })(jQuery);
 
 
