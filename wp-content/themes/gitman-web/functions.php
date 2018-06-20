@@ -129,7 +129,49 @@ if( function_exists('get_fields') ){
 	add_filter('json_prepare_post', 'wp_api_encode_acf', 10, 3);
 }
 
+/**
+* Add fields to the REST API response
+*/
+function gitman_register_fields(){
+	
+	register_rest_field('post', 
+		'previous_post_ID',
+		array(
+			'get_callback' => 'gitman_get_previous_post_ID',
+			'update_callback' => null,
+			'schema' => null,
+		));
 
+	register_rest_field('post', 
+		'previous_post_title',
+		array(
+			'get_callback' => 'gitman_get_previous_post_title',
+			'update_callback' => null,
+			'schema' => null,
+		));
+
+	register_rest_field('post', 
+		'previous_post_link',
+		array(
+			'get_callback' => 'gitman_get_previous_post_link',
+			'update_callback' => null,
+			'schema' => null,
+		));
+}
+
+add_action( 'rest_api_init', 'gitman_register_fields' );
+
+function gitman_get_previous_post_ID(){
+	return get_previous_post()->ID;
+}
+
+function gitman_get_previous_post_title(){
+	return get_previous_post()->post_title;
+}
+
+function gitman_get_previous_post_link(){
+	return get_permalink(gitman_get_previous_post_ID());
+}
 
 
 

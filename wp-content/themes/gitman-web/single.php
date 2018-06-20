@@ -7,8 +7,35 @@ get_header(); ?>
 	<main id="main" class="site-main">
 		
 		<?php 
-			while( have_posts() ) : the_post();
+			while( have_posts() ) : the_post(); ?>
 
+				<div class="wrap">
+					
+					<div id="primary" class="content-area">
+						
+						<main id="main" class="site-main">
+							<?php 
+							get_template_part( 'template-parts/content', get_post_type() );
+							?>
+						</main>
+						
+					</div>
+
+				</div>
+				<nav class="navigation post-navigation load-previous" role="navigation">
+					<span class="nav-subtitle">Previous Post</span>
+					<div class="nav-links">
+						<div class="nav-previous">
+							
+							<?php $previous_post = get_previous_post(); ?>
+
+							<a href="<?php echo get_permalink($previous_post->ID); ?>" data-id="<?php echo $previous_post->ID; ?>">
+								<?php echo $previous_post->post_title; ?>
+							</a>
+
+						</div>
+					</div>
+				</nav>
 				$previous_post = get_previous_post();
 				$next_post = get_next_post();
 
@@ -18,7 +45,7 @@ get_header(); ?>
                 
 				var_dump($next_page);
 
-				get_template_part( 'template-parts/content', get_post_type() );
+				
 
 				if( comments_open() || get_comments_number() ) :
 					comments_template();
