@@ -33,6 +33,10 @@ get_header(); ?>
 								<?php echo $previous_post->post_title; ?>
 							</a>
 
+							<div class="ajax-loader">
+								<img src="<?php echo get_theme_file_uri('assets/images/spinner.svg'); ?>"
+							</div>
+
 						</div>
 					</div>
 				</nav>
