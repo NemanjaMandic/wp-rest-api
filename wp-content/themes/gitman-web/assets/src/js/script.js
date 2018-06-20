@@ -98,13 +98,47 @@ AJAX script to load previous post
 */
 (function($){
   
-  var rootUrl = magicData.root;
+  var restRootUrl = magicData.root;
+  var themeUri = magicData.theme_uri;
   var postId = magicData.post_id;
+  var nonce = magicData.nonce;
+  var naslov = magicData.naslov;
 
-  console.log("Post ID " + postId);
-  console.log("Root URL " + rootUrl);
+  // console.log("Post ID " + postId);
+  // console.log("Root URL " + restRootUrl);
+  // console.log("Theme URI: " + themeUri);
+  // console.log("Nonce: " + nonce);
+  // console.log("Naslov: " + naslov);
 
-  $('.load-previous a').attr('href', 'javascript:void(0)');
+  var previousBtn = $('.load-previous a');
+
+  previousBtn.attr('href', 'javascript:void(0)');
+
+  function previousPostTrigger(){
+    previousBtn.on('click', getPreviousPost);
+  }
+
+  
+  function getPreviousPost(){
+
+    var previousPostId = $(this).attr('data-id');
+    var jsonUrl = restRootUrl + 'wp/v2/posts/' + previousPostId;
+
+    $.ajax({
+      dataType: 'json',
+      url: jsonUrl
+    }).done(function(data){
+      console.log(data);
+    }).fail(function(){
+      console.log("ERROR");
+    }).always(function(){
+      console.log('AJAX complete');
+    });
+  }
+
+  //functions calls
+
+  previousPostTrigger();
 
 })(jQuery);
 

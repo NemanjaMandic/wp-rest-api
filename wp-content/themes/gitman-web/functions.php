@@ -76,6 +76,7 @@ if( ! function_exists('gitmansite_scripts') ){
 		    'root' => esc_url_raw( rest_url() ),
 		    'nonce' => wp_create_nonce( 'wp_rest' ),
 		    'post_id' => get_the_ID(),
+		    'naslov' => get_the_title(),
 		    'theme_uri' => get_stylesheet_directory_uri(),
 
 		) );
