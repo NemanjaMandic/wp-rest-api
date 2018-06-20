@@ -11,3 +11,32 @@ Text Domain: etabwebsite
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
 */
 
+
+.load-previous{
+	border-top: 1px solid #eee;
+	padding-top: 2em;
+}
+
+.load-previous .nav-subtitle{
+	margin-bottom: 2em;
+}
+
+.load-previous,
+.load-previous .nav-previous{
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.load-previous a{
+	margin-top: 2em;
+	padding: 1em 2em;
+	border: 1px solid #eee;
+}
+
+.load-previous a:focus,
+.load-previous a:hover{
+	box-shadow: none;
+	border-color: black;
+}

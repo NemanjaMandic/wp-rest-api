@@ -74,7 +74,9 @@ if( ! function_exists('gitmansite_scripts') ){
 
 		wp_localize_script( 'script', 'magicData', array(
 		    'root' => esc_url_raw( rest_url() ),
-		    'nonce' => wp_create_nonce( 'wp_rest' )
+		    'nonce' => wp_create_nonce( 'wp_rest' ),
+		    'post_id' => get_the_ID(),
+		    'theme_uri' => get_stylesheet_directory_uri(),
 
 		) );
 

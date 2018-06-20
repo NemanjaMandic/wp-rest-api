@@ -36,22 +36,24 @@ get_header(); ?>
 						</div>
 					</div>
 				</nav>
-				$previous_post = get_previous_post();
-				$next_post = get_next_post();
 
-				echo get_permalink($previous_post->ID);
-				echo "------------||||||-------------";
-				echo get_permalink($next_post->ID);
+				<?php
+				// $previous_post = get_previous_post();
+				// $next_post = get_next_post();
+
+				// echo get_permalink($previous_post->ID);
+				// echo "------------||||||-------------";
+				// echo get_permalink($next_post->ID);
                 
-				var_dump($next_page);
+				// var_dump($next_page);
 
 				
 
-				if( comments_open() || get_comments_number() ) :
-					comments_template();
-				endif;
+				// if( comments_open() || get_comments_number() ) :
+				// 	comments_template();
+				// endif;
 
-				the_post_navigation();
+				// the_post_navigation();
 
 			endwhile;
 		?>

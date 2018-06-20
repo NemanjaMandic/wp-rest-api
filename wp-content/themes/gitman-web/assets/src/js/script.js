@@ -93,4 +93,19 @@ if(quickAddBtn){
 });
 
 
+/**
+AJAX script to load previous post
+*/
+(function($){
+  
+  var rootUrl = magicData.root;
+  var postId = magicData.post_id;
+
+  console.log("Post ID " + postId);
+  console.log("Root URL " + rootUrl);
+
+  $('.load-previous a').attr('href', 'javascript:void(0)');
+
+})(jQuery);
+
 
