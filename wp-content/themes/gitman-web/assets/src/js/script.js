@@ -125,17 +125,37 @@ AJAX script to load previous post
     var jsonUrl = restRootUrl + 'wp/v2/posts/' + previousPostId;
 
     $.ajax({
+
       dataType: 'json',
       url: jsonUrl
+
     }).done(function(data){
-      console.log(data);
+
+      //console.log(data);
+      buildPost(data);
+
     }).fail(function(){
+
       console.log("ERROR");
+
     }).always(function(){
+
       console.log('AJAX complete');
+
     });
   }
 
+  function buildPost(data){
+     var content = 
+      '<div class="generated">' +
+        '<h1>' + data.title.rendered + '</h1>' +
+        '<div class="post-content">' +
+        '<p>' + data.content.rendered + '</p>' +
+        '</div>' +
+      '</div>';
+
+      $('.post-navigation').replaceWith(content);
+  }
   //functions calls
 
   previousPostTrigger();
