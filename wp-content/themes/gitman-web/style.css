@@ -40,3 +40,7 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 	box-shadow: none;
 	border-color: black;
 }
+
+/*.ajax-loader{
+	display: none;
+}*/

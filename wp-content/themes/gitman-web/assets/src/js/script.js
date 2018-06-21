@@ -144,6 +144,8 @@ AJAX script to load previous post
 
     var jsonUrl = restRootUrl + 'wp/v2/posts/' + previousPostId + '?_embed=true';
 
+    //$('.ajax-loader').show();
+
     $.ajax({
 
       dataType: 'json',
@@ -240,6 +242,9 @@ AJAX script to load previous post
               '</a>' +
             '</div><!-- nav-previous -->' +
             '</div><!-- .nav-links -->' +
+            '<div class="ajax-loader">' +
+                '<img src="' + themeUri + '/assets/images/spinner.svg "/>' +
+              '</div>' +
         '</nav>';
 
         //Append related posts to the posts-navigation container

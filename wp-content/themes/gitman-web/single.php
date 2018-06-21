@@ -34,7 +34,7 @@ get_header(); ?>
 							</a>
 
 							<div class="ajax-loader">
-								<img src="<?php echo get_theme_file_uri('assets/images/spinner.svg'); ?>"
+								<img src="<?php echo get_theme_file_uri('assets/images/spinner.svg'); ?>" />
 							</div>
 
 						</div>
